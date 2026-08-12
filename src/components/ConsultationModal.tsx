@@ -101,8 +101,8 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white border border-black rounded-sm max-w-lg w-full p-6 md:p-8 space-y-6 shadow-xl relative my-8 font-sans">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white border border-black rounded-sm max-w-lg w-full p-4 sm:p-6 md:p-8 space-y-5 shadow-xl relative my-4 sm:my-8 font-sans">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -114,9 +114,10 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
         {!isBooked ? (
           <>
             <div className="space-y-2 border-b border-[#E9E9E7] pb-4">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 border border-emerald-200 rounded-sm font-mono text-[11px] text-emerald-800 font-semibold">
-                <Calendar className="w-3.5 h-3.5 text-emerald-700" />
-                KONSULTASI GRATIS VIA WHATSAPP & ZOOM / GOOGLE MEET
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 border border-emerald-200 rounded-sm font-mono text-[10px] sm:text-[11px] text-emerald-800 font-semibold">
+                <Calendar className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                <span className="hidden sm:inline">KONSULTASI GRATIS VIA WHATSAPP & ZOOM / GOOGLE MEET</span>
+                <span className="sm:hidden">KONSULTASI GRATIS</span>
               </div>
               <h2 className="text-xl font-bold text-[#050505] tracking-tight">
                 Diskusi Kebutuhan Software UMKM Anda
@@ -130,7 +131,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
               {/* Channel Selector */}
               <div className="space-y-1">
                 <label className="text-[#050505] font-medium block">Pilihan Media Diskusi</label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setChannel('whatsapp')}

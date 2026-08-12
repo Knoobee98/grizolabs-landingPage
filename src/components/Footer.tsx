@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenConsultation
   };
 
   return (
-    <footer className="bg-white border-t border-[#E9E9E7] pt-12 pb-8 mt-20 no-print font-sans">
+    <footer className="bg-white border-t border-[#E9E9E7] pt-10 md:pt-12 pb-8 mt-12 md:mt-20 no-print font-sans">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Brand & Mission Statement */}
@@ -89,13 +89,13 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenConsultation
         </div>
 
         {/* Bottom Line */}
-        <div className="pt-6 border-t border-[#E9E9E7] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#757573]">
+        <div className="pt-6 border-t border-[#E9E9E7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#757573]">
           <div>
             © {new Date().getFullYear()} Grizolabs IT Consulting. Hak Cipta Dilindungi.
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px]">Ditenagai React 19 + Express + Gemini AI Studio</span>
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            <span className="font-mono text-[10px] sm:text-[11px] text-center">Ditenagai React 19 + Express + Gemini AI</span>
             <button
               onClick={scrollToTop}
               className="bg-[#F7F7F5] border border-[#E9E9E7] p-1.5 rounded-sm hover:bg-black hover:text-white transition-colors cursor-pointer"

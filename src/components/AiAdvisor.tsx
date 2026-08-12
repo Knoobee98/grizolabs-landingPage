@@ -279,8 +279,8 @@ export const AiAdvisor: React.FC<AiAdvisorProps> = ({ setActiveTab, onOpenConsul
                   Modul & Komponen Rekomendasi
                 </h4>
 
-                <div className="border border-[#E9E9E7] rounded-sm overflow-hidden">
-                  <table className="w-full text-left font-sans text-xs">
+                <div className="border border-[#E9E9E7] rounded-sm overflow-x-auto">
+                  <table className="w-full min-w-[480px] text-left font-sans text-xs">
                     <thead className="bg-[#F7F7F5] font-mono text-[10px] text-[#757573] border-b border-[#E9E9E7]">
                       <tr>
                         <th className="p-2.5">Komponen Fitur</th>

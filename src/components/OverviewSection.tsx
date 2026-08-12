@@ -91,7 +91,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
         </div>
 
         {/* Quick Value Points Ribbon */}
-        <div className="mt-8 pt-6 border-t border-[#E9E9E7] grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs">
+        <div className="mt-8 pt-6 border-t border-[#E9E9E7] grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 font-mono text-xs">
           <div className="space-y-1">
             <span className="text-[#757573] text-[11px] uppercase tracking-wider block font-sans">Harga Beli Sekali</span>
             <span className="text-lg font-bold text-[#050505] block">Mulai 1,5 Juta</span>
@@ -494,11 +494,11 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
               </div>
 
               {/* Metric Highlights */}
-              <div className="grid grid-cols-3 gap-2 pt-3 border-t border-[#E9E9E7] font-mono text-center">
+              <div className="grid grid-cols-3 gap-1.5 pt-3 border-t border-[#E9E9E7] font-mono text-center">
                 {study.results.map((res, idx) => (
-                  <div key={idx} className="bg-emerald-50/60 p-2 rounded-sm border border-emerald-100">
-                    <span className="block font-extrabold text-sm text-emerald-900">{res.metric}</span>
-                    <span className="block text-[9px] text-emerald-700 leading-tight font-sans mt-0.5">{res.label}</span>
+                  <div key={idx} className="bg-emerald-50/60 p-1.5 rounded-sm border border-emerald-100">
+                    <span className="block font-extrabold text-xs md:text-sm text-emerald-900">{res.metric}</span>
+                    <span className="block text-[8px] md:text-[9px] text-emerald-700 leading-tight font-sans mt-0.5">{res.label}</span>
                   </div>
                 ))}
               </div>

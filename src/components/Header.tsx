@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => scrollNav('left')}
               aria-label="Scroll Nav Left"
-              className="absolute left-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center -ml-2"
+              className="absolute left-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -ml-2"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => scrollNav('right')}
               aria-label="Scroll Nav Right"
-              className="absolute right-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer hidden sm:flex items-center justify-center -mr-2"
+              className="absolute right-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -mr-2"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

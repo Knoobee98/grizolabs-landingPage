@@ -206,20 +206,20 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
   return (
     <div className="space-y-8">
       {/* Header Banner */}
-      <div className="no-print bg-white border border-[#E9E9E7] rounded-sm p-6 md:p-8 space-y-3 shadow-2xs">
+      <div className="no-print bg-white border border-[#E9E9E7] rounded-sm p-4 md:p-8 space-y-3 shadow-2xs">
         <div className="flex items-center gap-2 font-mono text-xs text-emerald-800 font-semibold uppercase tracking-wider">
           <FileCode2 className="w-4 h-4 text-emerald-700" />
           KALKULATOR RANCANGAN FITUR & BIAYA (PRD ESTIMATOR)
         </div>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#050505] tracking-tight">
+        <h1 className="text-xl md:text-3xl font-extrabold text-[#050505] tracking-tight">
           Hitung Estimasi Biaya & Waktu Pengerjaan Secara Transparan
         </h1>
-        <p className="text-sm text-[#555553] max-w-3xl leading-relaxed font-sans">
-          Pilih modul fitur yang sesuai kebutuhan bisnis Anda di bawah ini. Anda dapat melihat secara jujur estimasi biaya investasi, jumlah minggu pengerjaan, serta mencetak rincian spesifikasi fitur untuk keperluan usaha Anda!
+        <p className="text-xs md:text-sm text-[#555553] max-w-3xl leading-relaxed font-sans">
+          Pilih modul fitur yang sesuai kebutuhan bisnis Anda. Kami akan tampilkan estimasi biaya investasi dan waktu pengerjaan secara jujur dan transparan!
         </p>
       </div>
 
-      <div className="no-print grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="no-print grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
         {/* Left Column: Scope Configuration Controls */}
         <div className="lg:col-span-7 space-y-6">
           {/* Project Details Setup */}
@@ -368,7 +368,7 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
         {/* Right Column: Live Scope Calculation Summary & PRD Document Preview */}
         <div className="lg:col-span-5 space-y-6">
           {/* Live Pricing & Timeline Summary Widget */}
-          <div className="bg-[#1B1B1B] text-white border border-black rounded-sm p-6 space-y-6 shadow-md sticky top-24">
+          <div className="bg-[#1B1B1B] text-white border border-black rounded-sm p-4 md:p-6 space-y-5 shadow-md lg:sticky lg:top-24">
             <div className="flex items-center justify-between border-b border-neutral-800 pb-3 font-mono text-xs">
               <span className="text-neutral-400">ESTIMASI INVESTASI IT</span>
               <span className="text-emerald-400 font-bold font-sans">[HARGA BELI SEKALI]</span>
@@ -378,7 +378,7 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
               <span className="text-xs font-sans text-neutral-400 uppercase tracking-wider block">
                 Total Estimasi Investasi System:
               </span>
-              <div className="text-3xl md:text-4xl font-extrabold font-mono text-white tracking-tight">
+              <div className="text-2xl md:text-4xl font-extrabold font-mono text-white tracking-tight">
                 {formattedIDR}
               </div>
               <p className="text-xs font-sans text-emerald-400 flex items-center gap-1">
@@ -507,7 +507,8 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
           </h4>
 
           <div className="border border-[#E9E9E7] rounded-sm overflow-hidden">
-            <table className="w-full text-left font-sans text-xs">
+            <div className="overflow-x-auto">
+            <table className="w-full text-left font-sans text-xs min-w-[480px]">
               <thead className="bg-[#F7F7F5] font-mono text-[11px] text-[#757573] border-b border-[#E9E9E7]">
                 <tr>
                   <th className="p-3">Nama Modul Fitur</th>
@@ -542,6 +543,7 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
                 </tr>
               </tfoot>
             </table>
+            </div>
           </div>
         </div>
 

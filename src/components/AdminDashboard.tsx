@@ -328,45 +328,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* Dashboard Main UI - Hidden during printing */}
       <div className="space-y-8 animate-fade-in no-print">
       {/* Admin Header Banner */}
-      <div className="bg-neutral-900 text-white rounded-lg p-6 md:p-8 shadow-xl relative overflow-hidden">
+      <div className="bg-neutral-900 text-white rounded-lg p-4 md:p-8 shadow-xl relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
           <LayoutDashboard className="w-64 h-64" />
         </div>
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold rounded">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold rounded">
                 GRIZOLABS INTERNAL CONTROL
               </span>
-              <span className="text-xs text-neutral-400 font-mono">v2.4 Live System</span>
+              <span className="text-xs text-neutral-400 font-mono">v2.4 Live</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Admin Project & Complaint Portal</h1>
-            <p className="text-neutral-300 text-sm mt-1">
+            <h1 className="text-xl md:text-3xl font-extrabold tracking-tight">Admin Project & Complaint Portal</h1>
+            <p className="text-neutral-300 text-xs md:text-sm mt-1 hidden sm:block">
               Pusat kendali proyek berjalan, pembaruan milestone, dan penanganan tiket komplain klien UMKM.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => setIsAddProjectModalOpen(true)}
-              className="bg-emerald-500 hover:bg-emerald-400 text-black px-4 py-2.5 rounded-sm font-mono font-bold text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+              className="bg-emerald-500 hover:bg-emerald-400 text-black px-3 py-2 rounded-sm font-mono font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
             >
-              <FolderPlus className="w-4 h-4 text-black" />
-              + Input Proyek Baru
+              <FolderPlus className="w-3.5 h-3.5 text-black" />
+              + Proyek Baru
             </button>
 
             <button
               onClick={() => setIsAddComplaintModalOpen(true)}
-              className="bg-white text-black hover:bg-neutral-200 px-4 py-2.5 rounded-sm font-mono font-bold text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+              className="bg-white text-black hover:bg-neutral-200 px-3 py-2 rounded-sm font-mono font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
             >
-              <PlusCircle className="w-4 h-4 text-red-600" />
-              Buat Tiket Komplain
+              <PlusCircle className="w-3.5 h-3.5 text-red-600" />
+              + Tiket Komplain
             </button>
           </div>
         </div>
 
         {/* Top Metric Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-neutral-800">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 md:mt-8 pt-4 md:pt-6 border-t border-neutral-800">
           <div className="bg-neutral-800/80 p-4 rounded border border-neutral-700/60">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-neutral-400">Proyek Berlangsung</span>
@@ -409,31 +409,34 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </div>
 
       {/* Main Tab Navigation (Projects vs Complaints) */}
-      <div className="flex items-center gap-3 border-b border-[#E9E9E7] pb-3">
+      <div className="flex items-center gap-2 border-b border-[#E9E9E7] pb-3 overflow-x-auto">
         <button
           onClick={() => setActiveSubTab('projects')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-sm font-sans text-sm font-bold transition-all cursor-pointer ${
+          className={`flex items-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-sm font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
             activeSubTab === 'projects'
               ? 'bg-black text-white shadow-sm ring-1 ring-black'
               : 'bg-white text-[#050505] hover:bg-[#F0F0ED] border border-[#E9E9E7]'
           }`}
         >
           <FolderKanban className="w-4 h-4" />
-          Proyek Berlangsung & Status ({projects.length})
+          <span className="hidden sm:inline">Proyek Berlangsung & Status</span>
+          <span className="sm:hidden">Proyek</span>
+          <span>({projects.length})</span>
         </button>
 
         <button
           onClick={() => setActiveSubTab('complaints')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-sm font-sans text-sm font-bold transition-all cursor-pointer relative ${
+          className={`flex items-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-sm font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer relative whitespace-nowrap shrink-0 ${
             activeSubTab === 'complaints'
               ? 'bg-black text-white shadow-sm ring-1 ring-black'
               : 'bg-white text-[#050505] hover:bg-[#F0F0ED] border border-[#E9E9E7]'
           }`}
         >
           <AlertTriangle className="w-4 h-4 text-red-500" />
-          Komplain & Tiket Klien
+          <span className="hidden sm:inline">Komplain & Tiket Klien</span>
+          <span className="sm:hidden">Komplain</span>
           {openComplaintsCount > 0 && (
-            <span className="px-2 py-0.5 bg-red-600 text-white font-mono text-[11px] rounded-full font-bold ml-1">
+            <span className="px-2 py-0.5 bg-red-600 text-white font-mono text-[11px] rounded-full font-bold">
               {openComplaintsCount}
             </span>
           )}
@@ -536,7 +539,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                   {/* Status & Progress Editing Bar */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center bg-[#FDFDFD] p-3.5 rounded border border-[#F0F0ED]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center bg-[#FDFDFD] p-3.5 rounded border border-[#F0F0ED]">
                     {/* Status Dropdown */}
                     <div>
                       <label className="text-[11px] font-mono text-neutral-500 block mb-1">Ubah Status Proyek:</label>
@@ -602,7 +605,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                   {/* Project Details Footer */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-neutral-600 pt-1">
+                  <div className="space-y-2 pt-1 text-xs text-neutral-600">
                     <div className="flex items-center gap-4 flex-wrap">
                       <span className="flex items-center gap-1 font-mono text-[11px]">
                         <UserCheck className="w-3.5 h-3.5 text-neutral-400" />
@@ -613,20 +616,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 self-end sm:self-auto">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => setSpkProject(project)}
                         className="text-xs font-mono font-bold bg-neutral-900 hover:bg-black text-white px-3 py-1.5 rounded-sm flex items-center gap-1.5 cursor-pointer shadow-2xs transition-colors"
                       >
                         <FileCheck className="w-3.5 h-3.5 text-emerald-400" />
-                        Generate SPK Kontrak
+                        Generate SPK
                       </button>
 
                       <button
                         onClick={() => setSelectedProject(project)}
                         className="text-xs font-mono font-bold text-black hover:underline flex items-center gap-1 cursor-pointer"
                       >
-                        Detail & Catatan Proyek
+                        Detail & Catatan
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
