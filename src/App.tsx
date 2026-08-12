@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
-import { ActiveTab, AdminProject, ClientComplaint } from './types';
+import { ActiveTab } from './types';
 import { Header } from './components/Header';
 import { OverviewSection } from './components/OverviewSection';
 import { PrdEstimator } from './components/PrdEstimator';
 import { ITDiagnostic } from './components/ITDiagnostic';
-import { AdminDashboard } from './components/AdminDashboard';
 import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
-import { INITIAL_ADMIN_PROJECTS, INITIAL_CLIENT_COMPLAINTS } from './data/mockData';
+import { AuthLogin } from './components/auth/AuthLogin';
+import { AdminPage } from './components/admin/AdminPage';
+import { usePathname } from './hooks/usePathname';
 
 export default function App() {
+  const pathname = usePathname();
+
+  // Login route
+  if (pathname === '/login') {
+    return <AuthLogin />;
+  }
+
+  // Admin route (protected)
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+    return <AdminPage />;
+  }
+
+  return <LandingPage />;
+}
+
+export function LandingPage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [consultationInitialData, setConsultationInitialData] = useState<any>(null);
-
-  // Admin Portal State
-  const [adminProjects, setAdminProjects] = useState<AdminProject[]>(INITIAL_ADMIN_PROJECTS);
-  const [clientComplaints, setClientComplaints] = useState<ClientComplaint[]>(INITIAL_CLIENT_COMPLAINTS);
 
   const handleOpenConsultModal = (data?: any) => {
     if (data) {
       setConsultationInitialData(data);
     }
     setIsConsultModalOpen(true);
-  };
-
-  const handleUpdateProject = (updatedProject: AdminProject) => {
-    setAdminProjects((prev) => prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)));
-  };
-
-  const handleUpdateComplaint = (updatedComplaint: ClientComplaint) => {
-    setClientComplaints((prev) => prev.map((c) => (c.id === updatedComplaint.id ? updatedComplaint : c)));
-  };
-
-  const handleAddComplaint = (newComplaint: ClientComplaint) => {
-    setClientComplaints((prev) => [newComplaint, ...prev]);
-  };
-
-  const handleAddProject = (newProject: AdminProject) => {
-    setAdminProjects((prev) => [newProject, ...prev]);
   };
 
   return (
@@ -73,17 +70,6 @@ export default function App() {
               onOpenConsultationModal={(data) => handleOpenConsultModal(data)}
             />
           )}
-
-          {activeTab === 'admin' && (
-            <AdminDashboard
-              projects={adminProjects}
-              onUpdateProject={handleUpdateProject}
-              complaints={clientComplaints}
-              onUpdateComplaint={handleUpdateComplaint}
-              onAddComplaint={handleAddComplaint}
-              onAddProject={handleAddProject}
-            />
-          )}
         </main>
       </div>
 
@@ -104,10 +90,8 @@ export default function App() {
             setConsultationInitialData(null);
           }}
           initialData={consultationInitialData}
-          onAddProject={handleAddProject}
         />
       </div>
     </div>
   );
 }
-
