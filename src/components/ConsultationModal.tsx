@@ -106,9 +106,10 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-xs font-mono text-[#757573] hover:text-black cursor-pointer p-1"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#F7F7F5] hover:bg-black hover:text-white text-[#050505] border border-[#E9E9E7] rounded-sm cursor-pointer p-1.5 transition-colors z-10"
+          aria-label="Tutup modal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         {!isBooked ? (
