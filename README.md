@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Short Description (Untuk Kolom About di GitHub)
+## 📌 Short Description
 > **Modern IT Consulting Platform for MSMEs powered by React 19, Vite, Express, & Gemini AI. Features PRD cost estimator, live project status tracker, client ticket management, and automated A4 SPK PDF contract generation.**
 
 ---
