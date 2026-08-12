@@ -3,13 +3,58 @@ import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+    },
+  },
+}));
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+}));
+
 app.use(express.json());
+
+app.use(cookieParser());
+
+// Rate limiting for auth endpoints
+const authRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 requests per windowMs
+  message: 'Too many auth attempts, please try again later.',
+});
+
+// Session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fallback-secret-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
 
 // Initialize Gemini Client safely on the server side
 const getGeminiClient = () => {
@@ -26,6 +71,106 @@ const getGeminiClient = () => {
     },
   });
 };
+
+// Admin user configuration (in production, use environment variables)
+const ADMIN_CONFIG = {
+  username: process.env.ADMIN_USERNAME || 'admin@grizolabs.app',
+  password: process.env.ADMIN_PASSWORD || 'ChangeThis123!',
+};
+
+// Authentication middleware
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies?.token;
+  
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SESSION_SECRET || 'fallback-secret-change-in-production');
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
+};
+
+const requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Admin access required' });
+  }
+  next();
+};
+
+// Auth routes
+const router = express.Router();
+
+// Login endpoint
+router.post('/login', authRateLimit, async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Validate credentials
+    if (username !== ADMIN_CONFIG.username) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Check password (supports both bcrypt hash in env or plaintext fallback)
+    const isBcryptHash = ADMIN_CONFIG.password.startsWith('$2');
+    const isValidPassword = isBcryptHash
+      ? await bcrypt.compare(password, ADMIN_CONFIG.password)
+      : password === ADMIN_CONFIG.password;
+    
+    if (!isValidPassword) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { 
+        username, 
+        role: 'admin',
+        exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+      },
+      process.env.SESSION_SECRET || 'fallback-secret-change-in-production'
+    );
+
+    // Set HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, user: { username, role: 'admin' } });
+  } catch (error: any) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+// Logout endpoint
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Logout failed' });
+    }
+    res.json({ success: true });
+  });
+});
+
+// Protected admin info endpoint
+router.get('/admin-info', authenticateToken, (req, res) => {
+  res.json({ 
+    user: { username: req.user.username, role: req.user.role },
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Mount auth routes
+app.use('/api/auth', router);
 
 // Health Check
 app.get('/api/health', (_req, res) => {

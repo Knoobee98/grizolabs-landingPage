@@ -42,7 +42,6 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'overview', label: 'Layanan & Paket', number: '01', icon: <Terminal className="w-4 h-4" /> },
     { id: 'prd-estimator', label: 'Estimasi Biaya PRD', number: '02', icon: <FileCode2 className="w-4 h-4" /> },
     { id: 'diagnostic', label: 'Audit IT UMKM', number: '03', icon: <ShieldCheck className="w-4 h-4 text-emerald-600" /> },
-    { id: 'admin', label: 'Admin Dashboard', number: '04', icon: <LayoutDashboard className="w-4 h-4 text-amber-500" /> },
   ];
 
   return (
@@ -136,6 +135,13 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Call To Action */}
         <div className="hidden lg:flex items-center gap-3">
+          <a
+            href="/admin"
+            className="text-xs font-mono font-bold bg-[#F7F7F5] border border-[#E9E9E7] text-[#050505] hover:bg-[#EEEEEE] px-3 py-2.5 rounded-sm flex items-center gap-2 cursor-pointer transition-colors"
+          >
+            <LayoutDashboard className="w-3.5 h-3.5 text-amber-600" />
+            Admin
+          </a>
           <button
             onClick={onOpenConsultationModal}
             id="btn-consult-desktop"
