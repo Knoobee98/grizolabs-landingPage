@@ -450,7 +450,7 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Garansi Maintenance & Pelatihan Staff Onsite/Online</span>
+                <span>Garansi Maintenance & Pelatihan Staff</span>
               </div>
             </div>
           </div>
@@ -458,130 +458,132 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
       </div>
 
       {/* Generated Formal PRD Document Preview (Printable View) */}
-      <div className="print-document bg-white border border-[#E9E9E7] rounded-sm p-6 md:p-10 space-y-6 shadow-2xs font-sans">
-        <div className="flex items-start justify-between border-b-2 border-black pb-4">
-          <div>
-            <div className="font-mono font-extrabold text-base text-black tracking-wider flex items-center gap-2">
-              <span className="bg-black text-white px-2 py-0.5 rounded-xs">GRIZOLABS</span>
+      <div className="print-document bg-white border border-[#E9E9E7] rounded-sm p-4 md:p-10 space-y-5 shadow-2xs font-sans">
+        {/* Document Header */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 border-b-2 border-black pb-4">
+          <div className="space-y-1">
+            <div className="font-mono font-extrabold text-sm md:text-base text-black tracking-wider flex items-center gap-2 flex-wrap">
+              <span className="bg-black text-white px-2 py-0.5 rounded-xs shrink-0">GRIZOLABS</span>
               <span>SOFTWARE HOUSE & IT CONSULTANT</span>
             </div>
-            <p className="text-xs text-[#555553] mt-1 font-sans">
+            <p className="text-xs text-[#555553] font-sans">
               Spesialis Aplikasi Web, Kasir POS & Otomatisasi Sistem UMKM
             </p>
-            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#757573] mt-2">
-              <span className="font-bold text-black">[PRD DOKUMEN SPESIFIKASI FITUR]</span>
-              <span>• NO: {docRefNumber}</span>
-              <span>• TGL: {currentDate}</span>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-[#757573] pt-1">
+              <span className="font-bold text-black">[PRD]</span>
+              <span>NO: {docRefNumber}</span>
+              <span>TGL: {currentDate}</span>
             </div>
           </div>
-          <div className="text-right shrink-0">
-            <span className="font-mono text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-sm font-bold block">
-              DOKUMEN SPESIFIKASI
-            </span>
-          </div>
+          <span className="font-mono text-[10px] sm:text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-sm font-bold self-start shrink-0">
+            DOKUMEN SPESIFIKASI
+          </span>
         </div>
 
+        {/* Project Title */}
         <div className="space-y-1">
-          <h3 className="text-xl font-bold text-[#050505]">{projectName} - Spesifikasi System</h3>
-          <p className="text-xs text-[#555553]">Spesifikasi kebutuhan fitur dan estimasi investasi pengembangan aplikasi.</p>
+          <h3 className="text-base md:text-xl font-bold text-[#050505] leading-tight">{projectName} — Spesifikasi System</h3>
+          <p className="text-xs text-[#555553]">Estimasi kebutuhan fitur & investasi pengembangan aplikasi.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs bg-[#F7F7F5] p-4 rounded-sm border border-[#E9E9E7]">
+        {/* Meta Info */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs bg-[#F7F7F5] p-3 md:p-4 rounded-sm border border-[#E9E9E7]">
           <div>
-            <span className="text-[#757573] block uppercase text-[10px] font-sans">Kategori Bisnis:</span>
+            <span className="text-[#757573] block uppercase text-[10px] font-sans mb-0.5">Kategori Bisnis:</span>
             <span className="font-bold text-[#050505]">{industry}</span>
           </div>
           <div>
-            <span className="text-[#757573] block uppercase text-[10px] font-sans">Skala Infrastruktur:</span>
+            <span className="text-[#757573] block uppercase text-[10px] font-sans mb-0.5">Skala Infrastruktur:</span>
             <span className="font-bold text-[#050505] uppercase">{complexityTier} Tier</span>
           </div>
           <div>
-            <span className="text-[#757573] block uppercase text-[10px] font-sans">Target Selesai:</span>
+            <span className="text-[#757573] block uppercase text-[10px] font-sans mb-0.5">Target Selesai:</span>
             <span className="font-bold text-[#050505]">{finalWeeks} Minggu dari Kickoff</span>
           </div>
         </div>
 
-        <div className="space-y-4">
+        {/* Feature Matrix */}
+        <div className="space-y-3">
           <h4 className="font-mono text-xs font-bold text-[#050505] uppercase border-b border-[#E9E9E7] pb-1">
             1. Matriks Fitur & Estimasi Biaya
           </h4>
 
-          <div className="border border-[#E9E9E7] rounded-sm overflow-hidden">
-            <div className="overflow-x-auto">
-            <table className="w-full text-left font-sans text-xs min-w-[480px]">
-              <thead className="bg-[#F7F7F5] font-mono text-[11px] text-[#757573] border-b border-[#E9E9E7]">
-                <tr>
-                  <th className="p-3">Nama Modul Fitur</th>
-                  <th className="p-3">Kode Tag</th>
-                  <th className="p-3">Kategori</th>
-                  <th className="p-3 text-right">Estimasi Biaya</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#E9E9E7]">
-                {selectedModules.map((mod) => (
-                  <tr key={mod.id} className="hover:bg-[#F7F7F5]/50">
-                    <td className="p-3 font-medium text-[#050505]">
-                      {mod.name}
-                      <p className="text-[11px] text-[#757573] font-normal">{mod.description}</p>
+          {selectedModules.length === 0 ? (
+            <p className="text-xs text-[#757573] italic text-center py-4">Belum ada modul dipilih.</p>
+          ) : (
+            <div className="border border-[#E9E9E7] rounded-sm overflow-x-auto">
+              <table className="w-full text-left font-sans text-xs min-w-[420px]">
+                <thead className="bg-[#F7F7F5] font-mono text-[10px] text-[#757573] border-b border-[#E9E9E7]">
+                  <tr>
+                    <th className="p-2.5 md:p-3">Nama Modul</th>
+                    <th className="p-2.5 md:p-3 hidden sm:table-cell">Kode</th>
+                    <th className="p-2.5 md:p-3 hidden sm:table-cell">Kategori</th>
+                    <th className="p-2.5 md:p-3 text-right">Biaya</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E9E9E7]">
+                  {selectedModules.map((mod) => (
+                    <tr key={mod.id} className="hover:bg-[#F7F7F5]/50">
+                      <td className="p-2.5 md:p-3 font-medium text-[#050505]">
+                        <span className="block">{mod.name}</span>
+                        <span className="text-[10px] text-[#757573] font-normal leading-tight block">{mod.description}</span>
+                        {/* Show code/category inline on mobile */}
+                        <span className="sm:hidden font-mono text-[10px] text-[#757573] block mt-0.5">{mod.codeTag} · {mod.category}</span>
+                      </td>
+                      <td className="p-2.5 md:p-3 font-mono text-[11px] text-[#757573] hidden sm:table-cell">{mod.codeTag}</td>
+                      <td className="p-2.5 md:p-3 font-mono text-[11px] text-[#050505] hidden sm:table-cell">{mod.category}</td>
+                      <td className="p-2.5 md:p-3 font-mono text-right text-[#050505] text-[11px] whitespace-nowrap">
+                        Rp {Math.round(mod.baseCostIDR * tierMultiplier).toLocaleString('id-ID')}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot className="bg-[#111111] text-white font-mono text-xs border-t-2 border-black">
+                  <tr>
+                    <td colSpan={2} className="p-3 font-bold uppercase text-right hidden sm:table-cell">
+                      Total Estimasi Investasi:
                     </td>
-                    <td className="p-3 font-mono text-[11px] text-[#757573]">{mod.codeTag}</td>
-                    <td className="p-3 font-mono text-[11px] text-[#050505]">{mod.category}</td>
-                    <td className="p-3 font-mono text-right text-[#050505]">
-                      Rp {Math.round(mod.baseCostIDR * tierMultiplier).toLocaleString('id-ID')}
+                    <td className="p-3 font-bold uppercase sm:hidden">Total:</td>
+                    <td className="p-3 font-bold text-right text-emerald-400 text-sm whitespace-nowrap">
+                      {formattedIDR}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-              <tfoot className="bg-[#111111] text-white font-mono text-xs border-t-2 border-black">
-                <tr>
-                  <td colSpan={3} className="p-3.5 font-bold uppercase text-right">
-                    Total Estimasi Investasi System:
-                  </td>
-                  <td className="p-3.5 font-bold text-right text-emerald-400 text-sm">
-                    {formattedIDR}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                </tfoot>
+              </table>
             </div>
-          </div>
+          )}
         </div>
 
-        <div className="space-y-3 pt-2">
+        {/* Guarantees */}
+        <div className="space-y-2">
           <h4 className="font-mono text-xs font-bold text-[#050505] uppercase border-b border-[#E9E9E7] pb-1">
-            2. Komitmen Kualitas & Dukungan Garansi
+            2. Komitmen Kualitas & Garansi
           </h4>
           <ul className="space-y-2 text-xs text-[#050505] font-sans">
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600 font-bold">•</span>
-              <span>
-                <strong>Kecepatan & Keamanan:</strong> Aplikasi dikembangkan dengan arsitektur modern (React 19, Express TypeScript, Cloud SQL) yang stabil dan bebas lag.
-              </span>
+              <span className="text-emerald-600 font-bold shrink-0">✓</span>
+              <span><strong>Kecepatan & Keamanan:</strong> Arsitektur modern (React 19, Express TypeScript, Cloud SQL) — stabil dan bebas lag.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600 font-bold">•</span>
-              <span>
-                <strong>Keamanan Data:</strong> Database terenkripsi dengan backup harian otomatis agar data penjualan Anda selalu aman dari kehilangan.
-              </span>
+              <span className="text-emerald-600 font-bold shrink-0">✓</span>
+              <span><strong>Keamanan Data:</strong> Database terenkripsi dengan backup harian otomatis.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600 font-bold">•</span>
-              <span>
-                <strong>Serah Terima Lengkap:</strong> Seluruh source code, panduan penggunaan, serta pendampingan pelatihan staff siap diserahterimakan.
-              </span>
+              <span className="text-emerald-600 font-bold shrink-0">✓</span>
+              <span><strong>Serah Terima Lengkap:</strong> Source code, panduan penggunaan, dan pelatihan staff onsite/online.</span>
             </li>
           </ul>
         </div>
 
-        {/* Document Footer Sign-off & Contact Info */}
-        <div className="pt-6 border-t border-[#E9E9E7] flex flex-wrap items-end justify-between gap-4 font-mono text-xs text-[#757573]">
-          <div className="space-y-1">
-            <p className="font-bold text-black">GRIZOLABS SOFTWARE HOUSE</p>
-            <p>Konsultasi & Informasi: hello@grizolabs.id | WA: 0812-3456-7890</p>
-            <p>Website Resmi: https://grizolabs.id</p>
+        {/* Document Footer */}
+        <div className="pt-4 border-t border-[#E9E9E7] flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 font-mono text-[10px] md:text-xs text-[#757573]">
+          <div className="space-y-0.5">
+            <p className="font-bold text-black text-xs">GRIZOLABS SOFTWARE HOUSE</p>
+            <p>Email: hello@grizolabs.id | WA: 0812-3456-7890</p>
+            <p>https://grizolabs.id</p>
           </div>
-          <div className="text-right">
-            <p className="text-[10px] text-[#999]">Dicetak secara digital melalui sistem PRD Estimator Grizolabs</p>
+          <div className="sm:text-right">
+            <p className="text-[10px] text-[#999]">Dicetak via PRD Estimator Grizolabs</p>
           </div>
         </div>
       </div>
