@@ -1,26 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { ActiveTab } from './types';
 import { Header } from './components/Header';
 import { OverviewSection } from './components/OverviewSection';
-import { PrdEstimator } from './components/PrdEstimator';
 import { ITDiagnostic } from './components/ITDiagnostic';
 import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
-import { AuthLogin } from './components/auth/AuthLogin';
-import { AdminPage } from './components/admin/AdminPage';
 import { usePathname } from './hooks/usePathname';
+import { Loader2 } from 'lucide-react';
+
+const AuthLogin = lazy(() => import('./components/auth/AuthLogin').then(m => ({ default: m.AuthLogin })));
+const AdminPage = lazy(() => import('./components/admin/AdminPage').then(m => ({ default: m.AdminPage })));
+const PrdEstimator = lazy(() => import('./components/PrdEstimator').then(m => ({ default: m.PrdEstimator })));
+
+function RouteLoading() {
+  return (
+    <div className="min-h-screen bg-[#F9F9F9] flex items-center justify-center p-4">
+      <div className="flex items-center gap-2 text-xs font-mono text-[#555553]">
+        <Loader2 className="w-4 h-4 animate-spin text-black" />
+        <span>Memuat halaman...</span>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const pathname = usePathname();
 
   // Login route
   if (pathname === '/login') {
-    return <AuthLogin />;
+    return (
+      <Suspense fallback={<RouteLoading />}>
+        <AuthLogin />
+      </Suspense>
+    );
   }
 
   // Admin route (protected)
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
-    return <AdminPage />;
+    return (
+      <Suspense fallback={<RouteLoading />}>
+        <AdminPage />
+      </Suspense>
+    );
   }
 
   return <LandingPage />;
@@ -60,9 +81,11 @@ export function LandingPage() {
           )}
 
           {activeTab === 'prd-estimator' && (
-            <PrdEstimator
-              onOpenConsultationModal={(data) => handleOpenConsultModal(data)}
-            />
+            <Suspense fallback={<RouteLoading />}>
+              <PrdEstimator
+                onOpenConsultationModal={(data) => handleOpenConsultModal(data)}
+              />
+            </Suspense>
           )}
 
           {activeTab === 'diagnostic' && (
