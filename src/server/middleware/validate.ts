@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { z, ZodSchema } from 'zod';
+import { z, ZodTypeAny } from 'zod';
 
-export function validateBody<T>(schema: ZodSchema<T>) {
+export function validateBody(schema: ZodTypeAny) {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);
     if (!result.success) {
-      const formattedErrors = result.error.errors.map((err) => ({
-        field: err.path.join('.'),
-        message: err.message,
+      const formattedErrors = result.error.issues.map((issue) => ({
+        field: issue.path.join('.'),
+        message: issue.message,
       }));
       return res.status(400).json({
         error: 'Validation failed',
@@ -29,5 +29,5 @@ export const createLeadSchema = z.object({
   preferredDate: z.string().trim().max(100).nullable().optional(),
   preferredTime: z.string().trim().max(100).nullable().optional(),
   notes: z.string().trim().max(4000).nullable().optional(),
-  sourceData: z.record(z.unknown()).nullable().optional(),
+  sourceData: z.record(z.string(), z.unknown()).nullable().optional(),
 });
