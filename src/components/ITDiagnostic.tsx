@@ -120,7 +120,7 @@ export const ITDiagnostic: React.FC<ITDiagnosticProps> = ({ onOpenConsultationMo
                 </span>
               </div>
 
-              <h3 className="font-bold text-[#050505] text-sm leading-snug font-sans">{q.question}</h3>
+              <h2 className="font-bold text-[#050505] text-sm leading-snug font-sans">{q.question}</h2>
 
               <div className="space-y-2">
                 {q.options.map((opt, idx) => {
