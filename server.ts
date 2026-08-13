@@ -7,6 +7,17 @@ import { createApp } from './src/server/app';
 const app = createApp();
 
 async function startServer() {
+  if (config.dbEnabled && config.nodeEnv !== 'production') {
+    try {
+      const { migrate } = await import('drizzle-orm/node-postgres/migrator');
+      const { getDb } = await import('./src/server/db');
+      await migrate(getDb(), { migrationsFolder: path.join(process.cwd(), 'drizzle') });
+      console.log('[db] Migrations applied (dev)');
+    } catch (error) {
+      console.error('[db] Dev migration failed:', error);
+    }
+  }
+
   if (config.nodeEnv !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },

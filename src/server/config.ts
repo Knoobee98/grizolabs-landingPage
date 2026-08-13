@@ -45,6 +45,8 @@ export const config = {
   port: Number(process.env.PORT) || 3000,
   sessionSecret: process.env.SESSION_SECRET || 'fallback-secret-change-in-production',
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
+  databaseUrl: process.env.DATABASE_URL || '',
+  dbEnabled: Boolean(process.env.DATABASE_URL),
   // Locked-down CORS allowlist. Disallowed origins receive no CORS headers.
   corsOrigins,
   // Set true when running behind a reverse proxy (e.g. Cloud Run) so

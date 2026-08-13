@@ -1,30 +1,107 @@
-import React, { useState } from 'react';
-import { AdminProject, ClientComplaint } from '../../types';
+import React, { useState, useEffect } from 'react';
+import { AdminProject, ClientComplaint, Lead, LeadStatus } from '../../types';
 import { AdminDashboard } from '../AdminDashboard';
 import { ProtectedRoute } from '../auth/ProtectedRoute';
 import { useAuth } from '../../context/AuthContext';
 import { INITIAL_ADMIN_PROJECTS, INITIAL_CLIENT_COMPLAINTS } from '../../data/mockData';
+import { adminApi } from '../../services/admin';
 import { LogOut, LayoutDashboard } from 'lucide-react';
 
 export const AdminPage: React.FC = () => {
   const { user, logout } = useAuth();
-  const [adminProjects, setAdminProjects] = useState<AdminProject[]>(INITIAL_ADMIN_PROJECTS);
-  const [clientComplaints, setClientComplaints] = useState<ClientComplaint[]>(INITIAL_CLIENT_COMPLAINTS);
+  const [adminProjects, setAdminProjects] = useState<AdminProject[]>([]);
+  const [clientComplaints, setClientComplaints] = useState<ClientComplaint[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [dbMode, setDbMode] = useState(false);
 
-  const handleUpdateProject = (updatedProject: AdminProject) => {
-    setAdminProjects((prev) => prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)));
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const [projects, complaints, leadList] = await Promise.all([
+          adminApi.getProjects(),
+          adminApi.getComplaints(),
+          adminApi.getLeads(),
+        ]);
+        if (!mounted) return;
+        setAdminProjects(projects);
+        setClientComplaints(complaints);
+        setLeads(leadList);
+        setDbMode(true);
+      } catch {
+        // DB not configured / offline → fall back to local mock data
+        if (!mounted) return;
+        setAdminProjects(INITIAL_ADMIN_PROJECTS);
+        setClientComplaints(INITIAL_CLIENT_COMPLAINTS);
+        setDbMode(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const handleUpdateProject = async (updatedProject: AdminProject) => {
+    const prev = adminProjects;
+    setAdminProjects((p) => p.map((x) => (x.id === updatedProject.id ? updatedProject : x)));
+    if (dbMode) {
+      try {
+        const saved = await adminApi.updateProject(updatedProject.id, updatedProject);
+        setAdminProjects((p) => p.map((x) => (x.id === saved.id ? saved : x)));
+      } catch {
+        setAdminProjects(prev);
+      }
+    }
   };
 
-  const handleUpdateComplaint = (updatedComplaint: ClientComplaint) => {
-    setClientComplaints((prev) => prev.map((c) => (c.id === updatedComplaint.id ? updatedComplaint : c)));
+  const handleAddProject = async (newProject: AdminProject) => {
+    setAdminProjects((p) => [newProject, ...p]);
+    if (dbMode) {
+      try {
+        const saved = await adminApi.createProject(newProject);
+        setAdminProjects((p) => [saved, ...p.filter((x) => x.id !== newProject.id)]);
+      } catch {
+        setAdminProjects((p) => p.filter((x) => x.id !== newProject.id));
+      }
+    }
   };
 
-  const handleAddComplaint = (newComplaint: ClientComplaint) => {
-    setClientComplaints((prev) => [newComplaint, ...prev]);
+  const handleUpdateComplaint = async (updatedComplaint: ClientComplaint) => {
+    const prev = clientComplaints;
+    setClientComplaints((c) => c.map((x) => (x.id === updatedComplaint.id ? updatedComplaint : x)));
+    if (dbMode) {
+      try {
+        const saved = await adminApi.updateComplaint(updatedComplaint.id, updatedComplaint);
+        setClientComplaints((c) => c.map((x) => (x.id === saved.id ? saved : x)));
+      } catch {
+        setClientComplaints(prev);
+      }
+    }
   };
 
-  const handleAddProject = (newProject: AdminProject) => {
-    setAdminProjects((prev) => [newProject, ...prev]);
+  const handleAddComplaint = async (newComplaint: ClientComplaint) => {
+    setClientComplaints((c) => [newComplaint, ...c]);
+    if (dbMode) {
+      try {
+        const saved = await adminApi.createComplaint(newComplaint);
+        setClientComplaints((c) => [saved, ...c.filter((x) => x.id !== newComplaint.id)]);
+      } catch {
+        setClientComplaints((c) => c.filter((x) => x.id !== newComplaint.id));
+      }
+    }
+  };
+
+  const handleUpdateLeadStatus = async (id: string, status: LeadStatus) => {
+    const prev = leads;
+    setLeads((l) => l.map((x) => (x.id === id ? { ...x, status } : x)));
+    if (dbMode) {
+      try {
+        const saved = await adminApi.updateLeadStatus(id, status);
+        setLeads((l) => l.map((x) => (x.id === saved.id ? saved : x)));
+      } catch {
+        setLeads(prev);
+      }
+    }
   };
 
   const handleLogout = async () => {
@@ -63,6 +140,9 @@ export const AdminPage: React.FC = () => {
             onUpdateComplaint={handleUpdateComplaint}
             onAddComplaint={handleAddComplaint}
             onAddProject={handleAddProject}
+            leads={leads}
+            onUpdateLeadStatus={handleUpdateLeadStatus}
+            dbMode={dbMode}
           />
         </main>
       </div>

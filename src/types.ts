@@ -4,6 +4,25 @@ export type ProjectStatus = 'In Progress' | 'Under Review' | 'Completed' | 'On H
 export type ComplaintStatus = 'Open' | 'In Investigation' | 'Resolved';
 export type ComplaintPriority = 'High' | 'Medium' | 'Low';
 
+export type LeadType = 'consultation' | 'diagnostic' | 'prd';
+export type LeadStatus = 'new' | 'contacted' | 'converted' | 'closed';
+
+export interface Lead {
+  id: string;
+  leadType: LeadType;
+  businessName?: string | null;
+  contactName?: string | null;
+  whatsapp?: string | null;
+  email?: string | null;
+  channel?: 'whatsapp' | 'meeting' | null;
+  preferredDate?: string | null;
+  preferredTime?: string | null;
+  notes?: string | null;
+  sourceData?: Record<string, unknown> | null;
+  status: LeadStatus;
+  createdAt: string;
+}
+
 export interface AdminProject {
   id: string;
   uuid?: string;

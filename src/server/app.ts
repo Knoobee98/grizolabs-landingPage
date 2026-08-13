@@ -3,6 +3,8 @@ import { securityMiddleware, apiRateLimit } from './middleware/security';
 import { authRouter } from './routes/auth';
 import { aiAdvisorRouter } from './routes/aiAdvisor';
 import { prdGeneratorRouter } from './routes/prdGenerator';
+import { leadsRouter } from './routes/leads';
+import { adminRouter } from './routes/admin';
 import { config } from './config';
 
 export function createApp() {
@@ -20,6 +22,8 @@ export function createApp() {
 
   app.use('/api', apiRateLimit);
   app.use('/api/auth', authRouter);
+  app.use('/api/leads', leadsRouter);
+  app.use('/api/admin', adminRouter);
   app.use('/api/ai-advisor', aiAdvisorRouter);
   app.use('/api/prd-generate', prdGeneratorRouter);
 

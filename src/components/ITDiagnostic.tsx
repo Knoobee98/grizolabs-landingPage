@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DIAGNOSTIC_QUESTIONS } from '../data/mockData';
+import { postLead } from '../services/leads';
 import { 
   ShieldCheck, 
   ArrowRight, 
@@ -68,6 +69,21 @@ export const ITDiagnostic: React.FC<ITDiagnosticProps> = ({ onOpenConsultationMo
   };
 
   const maturityInfo = getMaturityStage(percentageScore);
+
+  const handleCalculate = () => {
+    setIsSubmitted(true);
+    // Fire-and-forget lead capture
+    postLead({
+      leadType: 'diagnostic',
+      notes: `Skor Audit IT: ${percentageScore}% - ${maturityInfo.stage}`,
+      sourceData: {
+        score: percentageScore,
+        stage: maturityInfo.stage,
+        badge: maturityInfo.badge,
+        answers,
+      },
+    });
+  };
 
   const handleReset = () => {
     setAnswers({});
@@ -156,7 +172,7 @@ export const ITDiagnostic: React.FC<ITDiagnosticProps> = ({ onOpenConsultationMo
             </button>
 
             <button
-              onClick={() => setIsSubmitted(true)}
+              onClick={handleCalculate}
               id="btn-diagnostic-calculate"
               className="bg-black text-white font-mono text-xs font-bold py-3 px-6 rounded-sm hover:bg-neutral-800 transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
             >
