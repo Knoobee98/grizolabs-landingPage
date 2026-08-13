@@ -34,8 +34,13 @@ export function createApp() {
 
   // Central error handler → JSON 500, never leak stack traces
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    console.error('[server] Unhandled error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    const status = (err as { status?: number; statusCode?: number }).status
+      || (err as { statusCode?: number }).statusCode
+      || 500;
+    if (status >= 500) {
+      console.error('[server] Unhandled error:', err);
+    }
+    res.status(status).json({ error: status >= 500 ? 'Internal server error' : 'Invalid request payload' });
   });
 
   return app;

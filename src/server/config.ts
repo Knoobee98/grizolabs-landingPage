@@ -44,6 +44,9 @@ export const config = {
   isProd,
   port: Number(process.env.PORT) || 3000,
   sessionSecret: process.env.SESSION_SECRET || 'fallback-secret-change-in-production',
+  // Secure (HTTPS-only) cookie. Defaults to production mode; override with
+  // COOKIE_SECURE=false to test a production build over plain HTTP.
+  cookieSecure: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : isProd,
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
   databaseUrl: process.env.DATABASE_URL || '',
   dbEnabled: Boolean(process.env.DATABASE_URL),

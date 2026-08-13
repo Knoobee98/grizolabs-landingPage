@@ -1,4 +1,4 @@
-import 'express-session';
+import 'express';
 
 declare global {
   namespace Express {
@@ -8,12 +8,6 @@ declare global {
         role: string;
       };
     }
-  }
-}
-
-declare module 'express-session' {
-  interface SessionData {
-    username?: string;
   }
 }
 
