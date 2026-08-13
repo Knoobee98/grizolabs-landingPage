@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PRDModuleOption } from '../types';
 import { PRD_MODULE_OPTIONS } from '../data/mockData';
+import { postLead } from '../services/leads';
 import { 
   FileCode2, 
   CheckSquare, 
@@ -403,15 +404,28 @@ export const PrdEstimator: React.FC<PrdEstimatorProps> = ({ onOpenConsultationMo
 
             <div className="space-y-3 pt-2">
               <button
-                onClick={() =>
+                onClick={() => {
+                  postLead({
+                    leadType: 'prd',
+                    businessName: projectName,
+                    notes: `Estimasi PRD: ${formattedIDR} (${finalWeeks} Minggu) — ${industry}`,
+                    sourceData: {
+                      projectName,
+                      industry,
+                      modules: selectedModules.map((m) => m.name),
+                      estimatedPrice: formattedIDR,
+                      estimatedWeeks: finalWeeks,
+                      complexityTier,
+                    },
+                  });
                   onOpenConsultationModal({
                     projectName,
                     industry,
                     selectedModules: selectedModules.map((m) => m.name),
                     estimatedPrice: formattedIDR,
                     estimatedWeeks: finalWeeks,
-                  })
-                }
+                  });
+                }}
                 id="btn-prd-submit-proposal"
                 className="w-full bg-white text-black font-mono text-xs font-bold py-3 px-4 rounded-sm hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
               >

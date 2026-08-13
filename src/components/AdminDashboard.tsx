@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { AdminProject, ClientComplaint, ProjectStatus, ComplaintStatus, ComplaintPriority } from '../types';
+import { AdminProject, ClientComplaint, Lead, LeadStatus, ProjectStatus, ComplaintStatus, ComplaintPriority } from '../types';
 import { SpkGeneratorModal } from './SpkGeneratorModal';
+import { AdminLeads } from './admin/AdminLeads';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -33,6 +34,9 @@ interface AdminDashboardProps {
   onUpdateComplaint: (updatedComplaint: ClientComplaint) => void;
   onAddComplaint: (newComplaint: ClientComplaint) => void;
   onAddProject?: (newProject: AdminProject) => void;
+  leads: Lead[];
+  onUpdateLeadStatus: (id: string, status: LeadStatus) => void;
+  dbMode: boolean;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -42,8 +46,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onUpdateComplaint,
   onAddComplaint,
   onAddProject,
+  leads,
+  onUpdateLeadStatus,
+  dbMode,
 }) => {
-  const [activeSubTab, setActiveSubTab] = useState<'projects' | 'complaints'>('projects');
+  const [activeSubTab, setActiveSubTab] = useState<'projects' | 'complaints' | 'leads'>('projects');
   
   // Project Search & Filters
   const [projectSearch, setProjectSearch] = useState('');
@@ -441,6 +448,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </span>
           )}
         </button>
+
+        <button
+          onClick={() => setActiveSubTab('leads')}
+          className={`flex items-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-sm font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer relative whitespace-nowrap shrink-0 ${
+            activeSubTab === 'leads'
+              ? 'bg-black text-white shadow-sm ring-1 ring-black'
+              : 'bg-white text-[#050505] hover:bg-[#F0F0ED] border border-[#E9E9E7]'
+          }`}
+        >
+          <PhoneCall className="w-4 h-4 text-emerald-600" />
+          <span className="hidden sm:inline">Leads & Permintaan</span>
+          <span className="sm:hidden">Leads</span>
+          {leads.length > 0 && (
+            <span className="px-2 py-0.5 bg-emerald-600 text-white font-mono text-[11px] rounded-full font-bold">
+              {leads.length}
+            </span>
+          )}
+        </button>
       </div>
 
       {/* TAB 1: PROJECTS MANAGEMENT */}
@@ -752,6 +777,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             )}
           </div>
         </div>
+      )}
+
+      {/* TAB 3: LEADS MANAGEMENT */}
+      {activeSubTab === 'leads' && (
+        <AdminLeads leads={leads} onUpdateLeadStatus={onUpdateLeadStatus} dbMode={dbMode} />
       )}
       </div>
 

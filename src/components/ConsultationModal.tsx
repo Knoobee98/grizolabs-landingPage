@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Calendar, Send, X, MessageSquare, Video, ExternalLink } from 'lucide-react';
 import { ADMIN_CONFIG } from '../data/mockData';
 import { AdminProject } from '../types';
+import { postLead } from '../services/leads';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -95,6 +96,19 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
       onAddProject(newProject);
     }
+
+    // Fire-and-forget lead capture (does not block the WhatsApp flow)
+    postLead({
+      leadType: 'consultation',
+      businessName,
+      contactName,
+      whatsapp,
+      email,
+      channel,
+      preferredDate,
+      preferredTime,
+      notes: notes || undefined,
+    });
 
     // Auto launch WhatsApp to Admin
     handleOpenWhatsAppAdmin(ref);
