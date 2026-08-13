@@ -85,9 +85,9 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => scrollNav('left')}
               aria-label="Scroll Nav Left"
-              className="absolute left-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -ml-2"
+              className="absolute left-0 z-10 bg-white/90 border border-[#E9E9E7] w-11 h-11 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -ml-2"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
           )}
 
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
                   id={`tab-nav-${item.id}`}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-2.5 min-h-[40px] rounded-sm text-xs transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                     isActive
                       ? 'bg-black text-white font-semibold shadow-xs ring-1 ring-black'
                       : 'bg-[#F7F7F5] text-[#050505] hover:bg-[#EEEEEE] border border-[#E9E9E7]'
@@ -126,9 +126,9 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => scrollNav('right')}
               aria-label="Scroll Nav Right"
-              className="absolute right-0 z-10 bg-white/90 border border-[#E9E9E7] p-1 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -mr-2"
+              className="absolute right-0 z-10 bg-white/90 border border-[#E9E9E7] w-11 h-11 rounded-full shadow-md text-[#050505] hover:bg-black hover:text-white transition-colors cursor-pointer flex items-center justify-center -mr-2"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           )}
         </div>
