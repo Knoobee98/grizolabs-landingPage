@@ -2,7 +2,6 @@ import helmet from 'helmet';
 import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import rateLimit from 'express-rate-limit';
 import { config } from '../config';
 
@@ -41,17 +40,6 @@ export const securityMiddleware = [
   }),
   express.json({ limit: '100kb' }),
   cookieParser(),
-  session({
-    secret: config.sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: isProd,
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
-  }),
 ];
 
 // Global throttle for every /api route. The health endpoint is registered

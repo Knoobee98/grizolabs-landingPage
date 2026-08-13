@@ -10,7 +10,7 @@ const createPool = () => {
   return new Pool({
     connectionString: config.databaseUrl,
     ...(useSsl ? { ssl: { rejectUnauthorized: false } } : {}),
-    max: 10,
+    max: 3,
   });
 };
 

@@ -31,7 +31,7 @@ authRouter.post('/login', authRateLimit, async (req: Request, res: Response) => 
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: config.isProd,
+      secure: config.cookieSecure,
       sameSite: 'strict',
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -45,15 +45,10 @@ authRouter.post('/login', authRateLimit, async (req: Request, res: Response) => 
 
 // Logout endpoint
 authRouter.post('/logout', (req: Request, res: Response) => {
-  const username = req.user?.username || req.session.username;
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ error: 'Logout failed' });
-    }
-    res.clearCookie('token');
-    logAudit({ action: 'logout', username, ip: req.ip, success: true });
-    res.json({ success: true });
-  });
+  const username = req.user?.username;
+  res.clearCookie('token');
+  logAudit({ action: 'logout', username, ip: req.ip, success: true });
+  res.json({ success: true });
 });
 
 // Protected admin info endpoint
