@@ -1,16 +1,12 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { db } from '../db';
-import { createLead, CreateLeadInput, LeadType } from '../db/repositories/leadsRepo';
+import { createLead, CreateLeadInput } from '../db/repositories/leadsRepo';
+import { validateBody, createLeadSchema } from '../middleware/validate';
 
 export const leadsRouter = express.Router();
 
-const LEAD_TYPES: LeadType[] = ['consultation', 'diagnostic', 'prd'];
-
-const str = (v: unknown, max = 255): string | null =>
-  typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null;
-
-leadsRouter.post('/', async (req: Request, res: Response) => {
+leadsRouter.post('/', validateBody(createLeadSchema), async (req: Request, res: Response) => {
   if (!db) {
     return res.status(503).json({ error: 'Database is not configured' });
   }
@@ -29,24 +25,17 @@ leadsRouter.post('/', async (req: Request, res: Response) => {
       sourceData,
     } = req.body;
 
-    if (!leadType || !LEAD_TYPES.includes(leadType)) {
-      return res.status(400).json({ error: 'leadType must be consultation, diagnostic or prd' });
-    }
-
     const input: CreateLeadInput = {
       leadType,
-      businessName: str(businessName),
-      contactName: str(contactName),
-      whatsapp: str(whatsapp),
-      email: str(email, 320),
-      channel: channel === 'meeting' || channel === 'whatsapp' ? channel : null,
-      preferredDate: str(preferredDate),
-      preferredTime: str(preferredTime, 100),
-      notes: typeof notes === 'string' && notes.trim() ? notes.trim().slice(0, 4000) : null,
-      sourceData:
-        sourceData && typeof sourceData === 'object' && !Array.isArray(sourceData)
-          ? sourceData
-          : null,
+      businessName: businessName || null,
+      contactName: contactName || null,
+      whatsapp: whatsapp || null,
+      email: email || null,
+      channel: channel || null,
+      preferredDate: preferredDate || null,
+      preferredTime: preferredTime || null,
+      notes: notes || null,
+      sourceData: sourceData || null,
     };
 
     const row = await createLead(input);

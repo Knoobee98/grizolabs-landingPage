@@ -8,13 +8,28 @@ prdGeneratorRouter.post('/', async (req: Request, res: Response) => {
   try {
     const { projectName, industry, selectedModules, techPreference } = req.body;
 
+    const sanitize = (text: unknown, maxLen = 200): string => {
+      if (typeof text !== 'string') return '';
+      return text
+        .replace(/[\{\}\[\]\<\>\`\$\\]/g, '')
+        .trim()
+        .slice(0, maxLen);
+    };
+
+    const cleanProjectName = sanitize(projectName, 100) || 'Aplikasi UMKM';
+    const cleanIndustry = sanitize(industry, 100) || 'Retail / Services';
+    const cleanTech = sanitize(techPreference, 100) || 'Web / POS';
+    const cleanModules = Array.isArray(selectedModules)
+      ? selectedModules.map((m) => sanitize(m, 50)).filter(Boolean).join(', ')
+      : 'Fitur Utama POS';
+
     const ai = getGeminiClient();
 
     const prompt = `Generate a Product Requirement Document (PRD) executive scope for:
-Project Name: ${projectName}
-Industry: ${industry}
-Selected Modules: ${selectedModules?.join(', ')}
-Tech Preference: ${techPreference}
+Project Name: ${cleanProjectName}
+Industry: ${cleanIndustry}
+Selected Modules: ${cleanModules}
+Tech Preference: ${cleanTech}
 
 Output JSON format:
 {
