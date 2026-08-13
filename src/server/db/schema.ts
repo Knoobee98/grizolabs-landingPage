@@ -31,6 +31,8 @@ export const leads = pgTable(
   (table) => [
     index('leads_status_idx').on(table.status),
     index('leads_created_at_idx').on(table.createdAt),
+    index('leads_lead_type_idx').on(table.leadType),
+    index('leads_contact_name_idx').on(table.contactName),
   ]
 );
 
@@ -60,7 +62,11 @@ export const projects = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [index('projects_status_idx').on(table.status)]
+  (table) => [
+    index('projects_status_idx').on(table.status),
+    index('projects_client_name_idx').on(table.clientName),
+    index('projects_live_status_idx').on(table.liveStatus),
+  ]
 );
 
 export const complaints = pgTable(
@@ -85,7 +91,11 @@ export const complaints = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [index('complaints_status_idx').on(table.status)]
+  (table) => [
+    index('complaints_status_idx').on(table.status),
+    index('complaints_priority_idx').on(table.priority),
+    index('complaints_category_idx').on(table.category),
+  ]
 );
 
 export const auditLogs = pgTable(
@@ -99,5 +109,8 @@ export const auditLogs = pgTable(
     success: boolean('success').notNull().default(false),
     detail: text('detail'),
   },
-  (table) => [index('audit_logs_timestamp_idx').on(table.timestamp)]
+  (table) => [
+    index('audit_logs_timestamp_idx').on(table.timestamp),
+    index('audit_logs_action_idx').on(table.action),
+  ]
 );

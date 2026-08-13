@@ -8,6 +8,13 @@
       "when": 1786602518105,
       "tag": "0000_romantic_vargas",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786612426413,
+      "tag": "0001_modern_magus",
+      "breakpoints": true
     }
   ]
 }
